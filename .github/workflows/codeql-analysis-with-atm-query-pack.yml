@@ -1,11 +1,6 @@
 name: "CodeQL Analysis with ATM"
 
-on:
-  push:
-    paths:
-      - ".github/workflows/build-query-suite-artifacts.yml"
-
-  # turn debug mode on
+on: [push, pull_request]
   
 env:
   CODEQL_ACTION_EXTRA_OPTIONS: >-
@@ -37,7 +32,7 @@ jobs:
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         # use ATM
-        uses: github/codeql-action/init@ed086de5d5cb51a84653163f8c4e4ef91021b904
+        uses: github/codeql-action/init@81dfe32077c877c6ff55d02612c7932022f95234
         # don't use ATM
         # uses: github/codeql-action/init@v1
         with:
@@ -47,6 +42,6 @@ jobs:
 
       - name: Perform CodeQL Analysis
         #  use ATM
-        uses: github/codeql-action/analyze@ed086de5d5cb51a84653163f8c4e4ef91021b904
+        uses: github/codeql-action/analyze@81dfe32077c877c6ff55d02612c7932022f95234
         # don't use ATM
         # uses: github/codeql-action/analyze@v1  
