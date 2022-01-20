@@ -38,6 +38,7 @@ jobs:
         with:
           languages: javascript
           queries: security-extended
+          tools: latest
           debug: true
 
       - name: Perform CodeQL Analysis
