@@ -1,16 +1,18 @@
 name: "CodeQL Analysis with ATM"
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/build-query-suite-artifacts.yml"
 
+  # turn debug mode on
+  
 env:
   CODEQL_ACTION_EXTRA_OPTIONS: >-
     {
       "database": {
         "run-queries": [
-          "--insecurely-load-models-from-packs",
-          "--insecurely-execute-ml-model-checksums",
-          "97c1d2662ee26bcbf74408bfe43821a4b3527b1b640234751ce80b7fc6a91a1f"
+          "--insecurely-load-models-from-packs"
         ]
       }
     }
@@ -41,7 +43,7 @@ jobs:
         with:
           languages: javascript
           queries: security-extended
-          tools: https://github.com/github/codeql-action/releases/download/codeql-bundle-20220112/codeql-bundle-linux64.tar.gz
+          debug: true
 
       - name: Perform CodeQL Analysis
         #  use ATM
