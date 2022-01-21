@@ -31,10 +31,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        # use ATM
-        uses: github/codeql-action/init@81dfe32077c877c6ff55d02612c7932022f95234
-        # don't use ATM
-        # uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@main
         with:
           languages: javascript
           queries: security-extended
@@ -43,7 +40,4 @@ jobs:
           debug: true
 
       - name: Perform CodeQL Analysis
-        #  use ATM
-        uses: github/codeql-action/analyze@81dfe32077c877c6ff55d02612c7932022f95234
-        # don't use ATM
-        # uses: github/codeql-action/analyze@v1  
+        uses: github/codeql-action/analyze@main 
