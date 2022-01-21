@@ -38,6 +38,9 @@ jobs:
         with:
           languages: javascript
           queries: security-extended
+          packs: codeql/javascript-experimental-atm-queries@0.0.5-revert-code-to-features-removal
+          tools: latest
+          debug: true
 
       - name: Perform CodeQL Analysis
         #  use ATM
