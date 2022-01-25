@@ -35,8 +35,6 @@ jobs:
         with:
           languages: javascript
           packs: codeql/javascript-experimental-atm-queries@0.0.6
-          tools: latest
-          debug: true
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@main
