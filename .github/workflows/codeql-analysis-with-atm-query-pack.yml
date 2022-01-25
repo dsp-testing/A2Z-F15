@@ -1,6 +1,7 @@
 name: "CodeQL Analysis with ATM"
 
-on: [push, pull_request]
+# add temporary workflow dispatch trigger to test OOMs
+on: [push, pull_request, workflow_dispatch]
   
 env:
   CODEQL_ACTION_EXTRA_OPTIONS: >-
