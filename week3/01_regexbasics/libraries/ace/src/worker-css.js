@@ -194,6 +194,12 @@ var main = window.main = null;
 var sender = window.sender = null;
 
 window.onmessage = function(e) {
+    // Replace with your trusted origin
+    var TRUSTED_ORIGIN = "https://your.trusted.domain";
+    if (e.origin !== TRUSTED_ORIGIN) {
+        // Untrusted origin, ignore message
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
