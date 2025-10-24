@@ -1,5 +1,11 @@
 "no use strict";
 ;(function(window) {
+
+// List of trusted origins. Update as necessary.
+const TRUSTED_ORIGINS = [
+    "https://www.example.com"
+];
+
 if (typeof window.window != "undefined" && window.document)
     return;
 if (window.require && window.define)
@@ -194,6 +200,11 @@ var main = window.main = null;
 var sender = window.sender = null;
 
 window.onmessage = function(e) {
+    // Check the origin of the message
+    if (!TRUSTED_ORIGINS.includes(e.origin)) {
+        // Optionally log or ignore
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
