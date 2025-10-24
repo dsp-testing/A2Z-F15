@@ -99,7 +99,13 @@ document.getElementById("buBuild").onclick = function() {
     injectSrc = injectSrc.replace(/\s+/g, " ");
 
     var options = textAce.getOptions();
-    options.baseUrl = document.getElementById("srcURL").value;
+    var rawUrl = document.getElementById("srcURL").value;
+    // Allow only relative and absolute URLs (no quotes, brackets, semicolons, etc.)
+    if (!/^[-\w\/:.]+$/.test(rawUrl)) {
+        alert("Please enter a valid source URL (letters, numbers, dash, slash, dot, colon only).");
+        return;
+    }
+    options.baseUrl = rawUrl;
 
     var a = document.querySelector("a");
     a.href = "javascript:(" + injectSrc + ")(" + JSON.stringify(options) + ")";
