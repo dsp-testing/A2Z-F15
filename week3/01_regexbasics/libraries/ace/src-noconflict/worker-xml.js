@@ -193,7 +193,17 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+// Change this to your actual trusted origin(s)
+const TRUSTED_ORIGIN = "https://www.example.com";
+
 window.onmessage = function(e) {
+    // If running in a worker context, origin may be undefined; adapt as needed
+    if (e.origin && e.origin !== TRUSTED_ORIGIN) {
+        // Optionally, log the rejection:
+        // console.warn("Rejected postMessage from origin:", e.origin);
+        return;
+    }
+    
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);

@@ -193,7 +193,11 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+var TRUSTED_ORIGIN = "https://www.example.com"; // TODO: Set this to your trusted origin
 window.onmessage = function(e) {
+    if (e.origin !== TRUSTED_ORIGIN) {
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);

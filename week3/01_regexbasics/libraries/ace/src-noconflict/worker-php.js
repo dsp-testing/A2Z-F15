@@ -193,7 +193,21 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+// Define trusted origins: Update this array as needed for your deployment.
+var TRUSTED_ORIGINS = [
+    'https://www.example.com'
+    // Add any additional trusted origins here
+];
+
 window.onmessage = function(e) {
+    // Only accept messages from trusted origins (web context)
+    // In Web Workers, e.origin is always '', so optionally allow '' (if needed).
+    if (typeof e.origin === 'string' && TRUSTED_ORIGINS.indexOf(e.origin) === -1 && e.origin !== '') {
+        // Optionally, you can log or ignore silently
+        // console.warn('Ignoring message from untrusted origin:', e.origin);
+        return;
+    }
+
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
