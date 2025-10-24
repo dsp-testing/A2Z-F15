@@ -194,6 +194,12 @@ var main = window.main = null;
 var sender = window.sender = null;
 
 window.onmessage = function(e) {
+    // Only accept messages from trusted origins
+    var TRUSTED_ORIGIN = "https://www.example.com";
+    if (e.origin !== TRUSTED_ORIGIN) {
+        // Uncomment for logging: console.warn("Untrusted message origin:", e.origin);
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
