@@ -193,7 +193,13 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+// List of allowed origins. Update as necessary.
+var ALLOWED_ORIGINS = ["https://www.example.com"];
+
 window.onmessage = function(e) {
+    if (!ALLOWED_ORIGINS.includes(e.origin)) {
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
