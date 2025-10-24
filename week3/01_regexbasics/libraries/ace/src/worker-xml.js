@@ -194,6 +194,13 @@ var main = window.main = null;
 var sender = window.sender = null;
 
 window.onmessage = function(e) {
+    // Only accept messages from a trusted origin.
+    // For web workers, e.origin is usually "null"; for frames/windows, supply your domain.
+    var TRUSTED_ORIGIN = "null"; // Change as needed, e.g., "https://your-domain.com"
+    if (e.origin !== TRUSTED_ORIGIN) {
+        // Optionally report the attempt, or ignore silently.
+        return;
+    }
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
