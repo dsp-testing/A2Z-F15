@@ -193,16 +193,24 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+// Define the allowed window methods that may be invoked
+var allowedWindowCommands = {
+    // Fill this object with allowed method names, for example:
+    // 'logToConsole': window.logToConsole
+    // In this base file, leave empty or add only safe entries.
+};
+
 window.onmessage = function(e) {
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
     }
     else if (msg.command) {
-        if (main[msg.command])
+        if (main && typeof main[msg.command] === "function")
             main[msg.command].apply(main, msg.args);
-        else if (window[msg.command])
-            window[msg.command].apply(window, msg.args);
+        else if (Object.prototype.hasOwnProperty.call(allowedWindowCommands, msg.command) &&
+                 typeof allowedWindowCommands[msg.command] === "function")
+            allowedWindowCommands[msg.command].apply(window, msg.args);
         else
             throw new Error("Unknown command:" + msg.command);
     }
