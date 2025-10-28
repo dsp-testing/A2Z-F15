@@ -193,16 +193,25 @@ window.initSender = function initSender() {
 var main = window.main = null;
 var sender = window.sender = null;
 
+// Command handlers whitelist
+window.commandHandlers = {
+    // Add allowed command handlers here, for example:
+    // myCommand: function(/* args */) { ... }
+};
+
 window.onmessage = function(e) {
     var msg = e.data;
     if (msg.event && sender) {
         sender._signal(msg.event, msg.data);
     }
     else if (msg.command) {
-        if (main[msg.command])
+        if (main && typeof main[msg.command] === 'function')
             main[msg.command].apply(main, msg.args);
-        else if (window[msg.command])
-            window[msg.command].apply(window, msg.args);
+        else if (
+            window.commandHandlers.hasOwnProperty(msg.command) &&
+            typeof window.commandHandlers[msg.command] === 'function'
+        )
+            window.commandHandlers[msg.command].apply(window, msg.args);
         else
             throw new Error("Unknown command:" + msg.command);
     }
