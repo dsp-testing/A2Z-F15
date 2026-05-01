@@ -30,13 +30,25 @@ app.get('/load', loadURL);
 // This is a module for HTTP Requests
 var request = require('request');
 
+// Allow-list of safe URLs
+const allowedUrls = [
+  'https://example.com/data1',
+  'https://example.com/data2',
+  'https://example.com/data3'
+];
+
 // Callback
 function loadURL(req, res) {
   // Get the URL from the user
   var url = req.query.url;
   
-  // Execute the HTTP Request
-  request(url, loaded);
+  // Validate the user-provided URL
+  if (allowedUrls.includes(url)) {
+    // Execute the HTTP Request
+    request(url, loaded);
+  } else {
+    res.status(403).send('URL not allowed. Only requests to approved URLs are permitted.');
+  }
   
   // Callback for when the request is complete
   function loaded(error, response, body) {
